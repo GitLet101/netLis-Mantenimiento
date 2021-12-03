@@ -9,7 +9,7 @@ using Dominio.Model;
 using MediatR;
 using Persistencia;
 
-namespace Aplicacion.Pais
+namespace Aplicacion.Sexo
 {
     public class Editar
     {
@@ -17,7 +17,7 @@ namespace Aplicacion.Pais
         {
             public string Descripcion { get; set; }
             public int Estado { get; set; }
-            public Guid IdPais { get; set; }
+            public Guid IdSexo { get; set; }
         }
 
         /*public class EjecutaValidacion : AbstractValidator<Ejecuta>
@@ -40,21 +40,20 @@ namespace Aplicacion.Pais
             }
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var pais = await _context.TblCatPais.FindAsync(request.IdPais);
-                if (pais == null)
+                var sexo = await _context.TblCatSexos.FindAsync(request.IdSexo);
+                if (sexo == null)
                 {
-                    throw new Exception("El pais no existe");
+                    throw new Exception("El sexo no existe");
                 }
 
-                pais.Descripcion = request.Descripcion ?? pais.Descripcion;
-                pais.Estado = request.Estado != 0 ? request.Estado : pais.Estado;
+                sexo.Descripcion = request.Descripcion ?? sexo.Descripcion;
                 
                 var resultado = await _context.SaveChangesAsync();
                 if (resultado > 0)
                 {
                     return Unit.Value;
                 }
-                throw new Exception("Error al modificar el pais");
+                throw new Exception("Error al modificar el sexo");
             }
         }
     }

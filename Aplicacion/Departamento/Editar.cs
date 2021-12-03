@@ -9,15 +9,16 @@ using Dominio.Model;
 using MediatR;
 using Persistencia;
 
-namespace Aplicacion.Pais
+namespace Aplicacion.Departamento
 {
     public class Editar
     {
         public class Ejecuta : IRequest
-        {
+        {   
+            public Guid IdDepartamento { get; set; }
+            public Guid IdPais { get; set; }
             public string Descripcion { get; set; }
             public int Estado { get; set; }
-            public Guid IdPais { get; set; }
         }
 
         /*public class EjecutaValidacion : AbstractValidator<Ejecuta>
@@ -40,21 +41,22 @@ namespace Aplicacion.Pais
             }
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var pais = await _context.TblCatPais.FindAsync(request.IdPais);
-                if (pais == null)
+                var departamento = await _context.TblCatDepartamentos.FindAsync(request.IdDepartamento);
+                if (departamento == null)
                 {
-                    throw new Exception("El pais no existe");
+                    throw new Exception("El curso no existe");
                 }
 
-                pais.Descripcion = request.Descripcion ?? pais.Descripcion;
-                pais.Estado = request.Estado != 0 ? request.Estado : pais.Estado;
-                
+                departamento.IdDepartamento = (request.IdDepartamento != null || request.IdDepartamento != Guid.Empty) ? request.IdDepartamento : departamento.IdDepartamento;
+                departamento.IdPais = (request.IdPais != null || request.IdPais != Guid.Empty) ? request.IdPais : departamento.IdPais;
+                departamento.Descripcion = request.Descripcion ?? departamento.Descripcion;
+
                 var resultado = await _context.SaveChangesAsync();
                 if (resultado > 0)
                 {
                     return Unit.Value;
                 }
-                throw new Exception("Error al modificar el pais");
+                throw new Exception("Error al modificar el curso");
             }
         }
     }

@@ -9,15 +9,18 @@ using Dominio.Model;
 using MediatR;
 using Persistencia;
 
-namespace Aplicacion.Pais
+namespace Aplicacion.ValoresNormales
 {
     public class Editar
     {
         public class Ejecuta : IRequest
         {
-            public string Descripcion { get; set; }
+            public Guid IdValoresNormales { get; set; }
+            public Guid IdExamen { get; set; }
+            public Guid IdSexo { get; set; }
+            public double RangoAlto { get; set; }
+            public double RangoBajo { get; set; }
             public int Estado { get; set; }
-            public Guid IdPais { get; set; }
         }
 
         /*public class EjecutaValidacion : AbstractValidator<Ejecuta>
@@ -40,21 +43,23 @@ namespace Aplicacion.Pais
             }
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var pais = await _context.TblCatPais.FindAsync(request.IdPais);
-                if (pais == null)
+                var valoresNormales = await _context.TblCatValoresNormales.FindAsync(request.IdValoresNormales);
+                if (valoresNormales == null)
                 {
-                    throw new Exception("El pais no existe");
+                    throw new Exception("El valor normal no existe");
                 }
-
-                pais.Descripcion = request.Descripcion ?? pais.Descripcion;
-                pais.Estado = request.Estado != 0 ? request.Estado : pais.Estado;
+                valoresNormales.IdExamen = (request.IdExamen != null || request.IdExamen != Guid.Empty) ? request.IdExamen : valoresNormales.IdExamen;
+                valoresNormales.IdSexo = (request.IdSexo != null || request.IdSexo != Guid.Empty) ? request.IdSexo : valoresNormales.IdSexo;
+                valoresNormales.RangoAlto = request.RangoAlto != 0 ? request.RangoAlto : valoresNormales.RangoAlto;
+                valoresNormales.RangoBajo = request.RangoBajo != 0 ? request.RangoBajo : valoresNormales.RangoBajo;
+                valoresNormales.Estado = request.Estado != 0 ? request.Estado : valoresNormales.Estado;
                 
                 var resultado = await _context.SaveChangesAsync();
                 if (resultado > 0)
                 {
                     return Unit.Value;
                 }
-                throw new Exception("Error al modificar el pais");
+                throw new Exception("Error al modificar el valor normal");
             }
         }
     }

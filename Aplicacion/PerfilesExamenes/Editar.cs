@@ -9,15 +9,15 @@ using Dominio.Model;
 using MediatR;
 using Persistencia;
 
-namespace Aplicacion.Pais
+namespace Aplicacion.PerfilesExamenes
 {
     public class Editar
     {
         public class Ejecuta : IRequest
         {
-            public string Descripcion { get; set; }
-            public int Estado { get; set; }
-            public Guid IdPais { get; set; }
+            public Guid IdPerfilesExamenes { get; set; }
+            public Guid IdExamen { get; set; }
+            public Guid IdPerfiles { get; set; }
         }
 
         /*public class EjecutaValidacion : AbstractValidator<Ejecuta>
@@ -40,21 +40,22 @@ namespace Aplicacion.Pais
             }
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var pais = await _context.TblCatPais.FindAsync(request.IdPais);
-                if (pais == null)
+                var perfilesExamenes = await _context.TblCatPerfilesExamenes.FindAsync(request.IdPerfilesExamenes);
+                if (perfilesExamenes == null)
                 {
-                    throw new Exception("El pais no existe");
+                    throw new Exception("El perfil examen no existe");
                 }
 
-                pais.Descripcion = request.Descripcion ?? pais.Descripcion;
-                pais.Estado = request.Estado != 0 ? request.Estado : pais.Estado;
-                
+                perfilesExamenes.IdPerfilesExamenes = (request.IdPerfilesExamenes != null || request.IdPerfilesExamenes != Guid.Empty) ? request.IdPerfilesExamenes : perfilesExamenes.IdPerfilesExamenes;
+                perfilesExamenes.IdExamen = (request.IdExamen != null || request.IdExamen != Guid.Empty) ? request.IdExamen : perfilesExamenes.IdExamen;
+                perfilesExamenes.IdPerfiles = (request.IdPerfiles != null || request.IdPerfiles != Guid.Empty) ? request.IdPerfiles : perfilesExamenes.IdPerfiles;
+
                 var resultado = await _context.SaveChangesAsync();
                 if (resultado > 0)
                 {
                     return Unit.Value;
                 }
-                throw new Exception("Error al modificar el pais");
+                throw new Exception("Error al modificar el perfil examen");
             }
         }
     }

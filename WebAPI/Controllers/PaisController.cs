@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Unit>> Eliminar(Guid id)
+        public async Task<ActionResult<Unit>> EliminarPais(Guid id)
         {
             return await Mediator.Send(new Eliminar.Ejecuta { Id = id });
         }

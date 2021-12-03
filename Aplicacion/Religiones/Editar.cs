@@ -9,15 +9,14 @@ using Dominio.Model;
 using MediatR;
 using Persistencia;
 
-namespace Aplicacion.Pais
+namespace Aplicacion.Religiones
 {
     public class Editar
     {
         public class Ejecuta : IRequest
         {
             public string Descripcion { get; set; }
-            public int Estado { get; set; }
-            public Guid IdPais { get; set; }
+            public Guid IdReligion { get; set; }
         }
 
         /*public class EjecutaValidacion : AbstractValidator<Ejecuta>
@@ -40,21 +39,20 @@ namespace Aplicacion.Pais
             }
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var pais = await _context.TblCatPais.FindAsync(request.IdPais);
-                if (pais == null)
+                var religiones = await _context.TblCatReligion.FindAsync(request.IdReligion);
+                if (religiones == null)
                 {
-                    throw new Exception("El pais no existe");
+                    throw new Exception("La religion no existe");
                 }
 
-                pais.Descripcion = request.Descripcion ?? pais.Descripcion;
-                pais.Estado = request.Estado != 0 ? request.Estado : pais.Estado;
+                religiones.Descripcion = request.Descripcion ?? religiones.Descripcion;
                 
                 var resultado = await _context.SaveChangesAsync();
                 if (resultado > 0)
                 {
                     return Unit.Value;
                 }
-                throw new Exception("Error al modificar el pais");
+                throw new Exception("Error al modificar la religion");
             }
         }
     }

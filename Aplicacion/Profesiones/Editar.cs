@@ -9,15 +9,15 @@ using Dominio.Model;
 using MediatR;
 using Persistencia;
 
-namespace Aplicacion.Pais
+namespace Aplicacion.Profesiones
 {
     public class Editar
     {
         public class Ejecuta : IRequest
         {
+            public Guid IdProfesiones { get; set; }
             public string Descripcion { get; set; }
             public int Estado { get; set; }
-            public Guid IdPais { get; set; }
         }
 
         /*public class EjecutaValidacion : AbstractValidator<Ejecuta>
@@ -40,21 +40,21 @@ namespace Aplicacion.Pais
             }
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var pais = await _context.TblCatPais.FindAsync(request.IdPais);
-                if (pais == null)
+                var profesiones = await _context.TblCatProfesiones.FindAsync(request.IdProfesiones);
+                if (profesiones == null)
                 {
-                    throw new Exception("El pais no existe");
+                    throw new Exception("La profesion no existe");
                 }
 
-                pais.Descripcion = request.Descripcion ?? pais.Descripcion;
-                pais.Estado = request.Estado != 0 ? request.Estado : pais.Estado;
+                profesiones.Descripcion = request.Descripcion ?? profesiones.Descripcion;
+                profesiones.Estado = request.Estado != 0 ? request.Estado : profesiones.Estado;
                 
                 var resultado = await _context.SaveChangesAsync();
                 if (resultado > 0)
                 {
                     return Unit.Value;
                 }
-                throw new Exception("Error al modificar el pais");
+                throw new Exception("Error al modificar la profesion");
             }
         }
     }
