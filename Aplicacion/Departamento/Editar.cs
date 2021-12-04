@@ -29,8 +29,8 @@ namespace Aplicacion.Departamento
                 RuleFor(x => x.Descripcion).NotEmpty();
                 RuleFor(x => x.FechaPublicacion).NotEmpty();
             }
-        }
-*/
+        }*/
+
         public class Manejador : IRequestHandler<Ejecuta>
         {
             private readonly netLisContext _context;

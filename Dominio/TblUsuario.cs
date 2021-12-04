@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace Dominio
+namespace Dominio.Model
 {
     public class TblUsuario : IdentityUser
     {

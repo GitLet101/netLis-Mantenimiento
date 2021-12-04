@@ -19,12 +19,12 @@ namespace WebAPI.Controllers
             _mediator = mediator;
         }
         [HttpGet]
-        public async Task<ActionResult<List<TblExamenes>>> Get()
+        public async Task<ActionResult<List<ExamenesDTO>>> Get()
         {
             return await Mediator.Send(new Consulta.Ejecuta());
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<TblExamenes>> Detalle(Guid id)
+        public async Task<ActionResult<ExamenesDTO>> Detalle(Guid id)
         {
             return await _mediator.Send(new ConsultaId.ExamenesUnico { Id = id });
         }

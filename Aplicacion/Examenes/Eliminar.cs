@@ -27,6 +27,11 @@ namespace Aplicacion.Examenes
             }
             public async Task<Unit> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
+                var perfiles = _context.TblCatPerfilesExamenes.Where(x => x.IdExamen == request.Id);
+                foreach (var perfil in perfiles)
+                {
+                    _context.TblCatPerfilesExamenes.Remove(perfil);
+                }
                 var examenes = await _context.TblExamenes.FindAsync(request.Id);
                 if (examenes == null)
                 {

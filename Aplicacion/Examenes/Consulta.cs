@@ -1,4 +1,5 @@
-﻿using Dominio.Model;
+﻿using AutoMapper;
+using Dominio.Model;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,19 +13,26 @@ namespace Aplicacion.Examenes
 {
     public class Consulta
     {
-        public class Ejecuta : IRequest<List<TblExamenes>> { }
+        public class Ejecuta : IRequest<List<ExamenesDTO>> { }
 
-        public class Manejador : IRequestHandler<Ejecuta, List<TblExamenes>>
+        public class Manejador : IRequestHandler<Ejecuta, List<ExamenesDTO>>
         {
             private readonly netLisContext _context;
-            public Manejador(netLisContext context)
+            private readonly IMapper _mapper;
+            public Manejador(netLisContext context, IMapper mapper)
             {
                 _context = context;
-            }
-            public async Task<List<TblExamenes>> Handle(Ejecuta request, CancellationToken cancellationToken)
+                _mapper = mapper;
+
+        }
+            public async Task<List<ExamenesDTO>> Handle(Ejecuta request, CancellationToken cancellationToken)
             {
-                var examenes = await _context.TblExamenes.ToListAsync();
-                return examenes;
+                var examenes = await _context.TblExamenes
+                    .Include(x => x.TblCatPerfilesExamenesLink)
+                    .ThenInclude(x => x.IdPerfilesNavigation).ToListAsync();
+
+                var examenesDTO = _mapper.Map<List<TblExamenes>, List<ExamenesDTO>>(examenes);
+                return examenesDTO;
             }
         }
     }

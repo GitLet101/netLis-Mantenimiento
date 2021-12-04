@@ -25,6 +25,7 @@ namespace Aplicacion.Examenes
             public string DescripcionCorta { get; set; }
             public string Confidencial { get; set; }
             public int Estado { get; set; }
+            public List<Guid> ListaPerfil { get; set; }
         }
 
         /*public class EjecutaValidacion : AbstractValidator<Ejecuta>
@@ -63,6 +64,29 @@ namespace Aplicacion.Examenes
                 examenes.Confidencial = request.Confidencial ?? examenes.Confidencial;
                 examenes.Estado = request.Estado != 0 ? request.Estado : examenes.Estado;
                 
+                if (request.ListaPerfil != null)
+                {
+                    if(request.ListaPerfil.Count > 0)
+                    {
+                        var perfiles = _context.TblCatPerfilesExamenes.Where(x => x.IdExamen == request.IdExamen).ToList();
+                        //Borrar
+                        foreach(var perfil in perfiles)
+                        {
+                            _context.TblCatPerfilesExamenes.Remove(perfil);
+                        }
+                        //Agregar
+                        foreach(var id in request.ListaPerfil)
+                        {
+                            var nuevoPerfil = new TblCatPerfilesExamenes
+                            {
+                                IdExamen = request.IdExamen,
+                                IdPerfiles = id
+                            };
+                            _context.TblCatPerfilesExamenes.Add(nuevoPerfil);
+                        }
+                    }
+                }
+
                 var resultado = await _context.SaveChangesAsync();
                 if (resultado > 0)
                 {

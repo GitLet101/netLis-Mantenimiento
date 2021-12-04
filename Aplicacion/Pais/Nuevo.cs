@@ -44,7 +44,7 @@ namespace Aplicacion.Pais
                 {
                     IdPais = _paisid,
                     Descripcion = request.Descripcion,
-                    Estado = request.Estado
+                    Estado = 1
                 };
 
                 _context.TblCatPais.Add(pais);

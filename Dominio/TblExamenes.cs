@@ -10,7 +10,7 @@ namespace Dominio.Model
         public TblExamenes()
         {
             TblCatIndicacionExaPacientes = new HashSet<TblCatIndicacionExaPaciente>();
-            TblCatPerfilesExamenes = new HashSet<TblCatPerfilesExamenes>();
+            TblCatPerfilesExamenesLink = new HashSet<TblCatPerfilesExamenes>();
             TblCatValoresNormales = new HashSet<TblCatValoresNormales>();
             TblOrdenesDetalles = new HashSet<TblOrdenesDetalle>();
             TblResultados = new HashSet<TblResultado>();
@@ -33,7 +33,7 @@ namespace Dominio.Model
         public virtual TblCatTipoResultado IdTipoResultadoNavigation { get; set; }
         public virtual TblCatUnidadMedida IdUnidadMedidasNavigation { get; set; }
         public virtual ICollection<TblCatIndicacionExaPaciente> TblCatIndicacionExaPacientes { get; set; }
-        public virtual ICollection<TblCatPerfilesExamenes> TblCatPerfilesExamenes { get; set; }
+        public virtual ICollection<TblCatPerfilesExamenes> TblCatPerfilesExamenesLink { get; set; }
         public virtual ICollection<TblCatValoresNormales> TblCatValoresNormales { get; set; }
         public virtual ICollection<TblOrdenesDetalle> TblOrdenesDetalles { get; set; }
         public virtual ICollection<TblResultado> TblResultados { get; set; }
